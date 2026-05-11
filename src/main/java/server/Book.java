@@ -15,5 +15,34 @@ public class Book extends Publication{
         this.pages = pages;
     }
 
-    
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getPages() {
+        return pages;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setPages(int pages) {
+        this.pages = pages;
+    }
+
+    @Override
+    public String toString() {
+        return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isAvailable=" + isAvailable
+                + ", genre=" + genre + ", pages=" + pages + "]";
+    }
+
 }

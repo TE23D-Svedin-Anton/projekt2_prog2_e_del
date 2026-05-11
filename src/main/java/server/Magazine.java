@@ -15,6 +15,38 @@ public class Magazine extends Publication{
         this.publisherYear = publisherYear;
     }
 
+    public int getIssueNumber() {
+        return issueNumber;
+    }
+
+    public void setIssueNumber(int issueNumber) {
+        this.issueNumber = issueNumber;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public int getPublisherYear() {
+        return publisherYear;
+    }
+
+    public void setPublisherYear(int publisherYear) {
+        this.publisherYear = publisherYear;
+    }
+
+    @Override
+    public String toString() {
+        return "Magazine [id=" + id + ", title=" + title + ", issueNumber=" + issueNumber + ", isAvailable="
+                + isAvailable + ", category=" + category + ", publisherYear=" + publisherYear + "]";
+    }
+
+    
+
     
 
 }

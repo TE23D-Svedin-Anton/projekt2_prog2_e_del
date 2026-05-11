@@ -37,7 +37,7 @@ public class Publication {
 
     @Override
     public String toString() {
-        return "Publication [ID=" + id + ", Title=" + title + ", IsAvailable=" + isAvailable + "]";
+        return "Publication [id=" + id + ", Title=" + title + ", IsAvailable=" + isAvailable + "]";
     }
 
     
