@@ -1,4 +1,4 @@
-// Anton Svedin TE23D
+// Anton Svedin TE23D Är en föräldrar klass till böcker och tidningar.
 package server.com;
 
 public class Publication {
@@ -22,18 +22,6 @@ public class Publication {
 
     public boolean isAvailable() {
         return isAvailable;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setAvailable(boolean isAvailable) {
-        this.isAvailable = isAvailable;
     }
 
     @Override

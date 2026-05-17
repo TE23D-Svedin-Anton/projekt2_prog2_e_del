@@ -1,4 +1,4 @@
-// Anton Svedin TE23D
+// Anton Svedin TE23D Detta är en klass för objektet bok.
 package server;
 
 import server.com.Publication;
@@ -26,18 +26,6 @@ public class Book extends Publication {
 
     public int getPages() {
         return pages;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public void setGenre(String genre) {
-        this.genre = genre;
-    }
-
-    public void setPages(int pages) {
-        this.pages = pages;
     }
 
     @Override

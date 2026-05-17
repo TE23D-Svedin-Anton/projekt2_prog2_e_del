@@ -1,4 +1,4 @@
-// Anton Svedin TE23D
+// Anton Svedin TE23D Detta är en klass för objektet bok.
 package server;
 
 import server.com.Publication;
@@ -20,24 +20,12 @@ public class Magazine extends Publication {
         return issueNumber;
     }
 
-    public void setIssueNumber(int issueNumber) {
-        this.issueNumber = issueNumber;
-    }
-
     public String getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public int getPublisherYear() {
         return publisherYear;
-    }
-
-    public void setPublisherYear(int publisherYear) {
-        this.publisherYear = publisherYear;
     }
 
     @Override
