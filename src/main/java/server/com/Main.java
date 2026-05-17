@@ -16,37 +16,119 @@ public class Main {
 
         while (!close) {
 
-            System.out.println("What would you like to do? Choose between 1-6");
-            System.out.println("1. Fetch books");
-            System.out.println("2. Fetch magazines");
-            System.out.println("3. Print fetched books or magazines");
-            System.out.println("4. Add a book");
-            System.out.println("5. Add a magazine");
-            System.out.println("6. Close");
+            System.out.println("What would you like to do?");
+            System.out.println("1. Fetch object/objects from server");
+            System.out.println("2. Add object to server");
+            System.out.println("3. Find object");
+            System.out.println("4. Remove object");
+            System.out.println("5. Sort objects");
+            System.out.println("6. Ban/unban users");
+            System.out.println("7. Close");
+            System.out.print("Choose between 1-6:");
 
-            int choice = keyboard.nextInt();
+            int mainMenuChoice = keyboard.nextInt();
             keyboard.nextLine();
 
-            switch (choice) {
+            switch (mainMenuChoice) {
+
                 case 1:
-                    lib.fetchBooks();
-                    break;
+                    System.out.println("1. Book");
+                    System.out.println("2. Magazines");
+                    System.out.println("3. Users");
+                    System.out.println("4. Banned users");
+                    int fetchChoice = keyboard.nextInt();
 
-                case 2:
-                    lib.fetchMagazines();
-                    break;
+                    switch (fetchChoice) {
+                        case 1:
+                            System.out.println("1. All books");
+                            System.out.println("2. Individual book");
+                            int bookFetchChoice = keyboard.nextInt();
+                            keyboard.nextLine();
 
-                case 3:
-                    System.out.print("Books or Magazines?:");
-                    String answere = keyboard.nextLine().toLowerCase();
-                    switch (answere) {
-                        case "books":
-                            for (Book b : lib.getBookShelf()) {
-                                System.out.println(b);
+                            switch (bookFetchChoice) {
+                                case 1:
+                                    lib.fetchBooks();
+                                    break;
+
+                                case 2:
+                                    System.out.print("Nämn bokens id:");
+                                    String bookId = keyboard.nextLine();
+                                    lib.fetchBook(bookId);
+                                    break;
                             }
 
                             break;
 
+                        case 2:
+                            System.out.println("1. All magazines");
+                            System.out.println("2. Individual magazine");
+                            int magazineFetchChoice = keyboard.nextInt();
+
+                            switch (magazineFetchChoice) {
+                                case 1:
+                                    lib.fetchMagazines();
+                                    break;
+
+                                case 2:
+                                    break;
+                            }
+                            break;
+
+                        case 3:
+                            System.out.println("1. All users");
+                            System.out.println("2. Individual user");
+                            int userFetchChoice = keyboard.nextInt();
+
+                            switch (userFetchChoice) {
+                                case 1:
+                                    break;
+
+                                case 2:
+                                    break;
+                            }
+                            break;
+
+                        case 4:
+                            System.out.println("1. All banned users");
+                            System.out.println("2. Individual banned users");
+                            int bannedUserFetchChoice = keyboard.nextInt();
+
+                            switch (bannedUserFetchChoice) {
+                                case 1:
+                                    break;
+
+                                case 2:
+                                    break;
+                            }
+                            break;
+
+                        case 5:
+                            break;
+
+                        case 6:
+                            break;
+
+                        case 7:
+                            break;
+
+                        case 8:
+                            break;
+                    }
+                    break;
+
+                case 2:
+                    break;
+
+                case 3:
+                    System.out.print("Books or Magazines?:");
+                    String answer = keyboard.nextLine().toLowerCase();
+                    switch (answer) {
+                        case "books":
+                            for (Book b : lib.getBookShelf()) {
+                                System.out.println(b);
+                            }
+                            
+                            break;
                         case "magazines":
                             for (Magazine m : lib.getMagazineShelf()) {
                                 System.out.println(m);
@@ -83,6 +165,10 @@ public class Main {
                     break;
 
                 case 6:
+
+                    break;
+
+                case 7:
                     close = true;
                     keyboard.close();
                     System.out.println("Hope to see you again!");

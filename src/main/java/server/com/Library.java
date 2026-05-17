@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 //Importerar unirest objekt
 import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 import kong.unirest.HttpResponse;
 import server.Book;
 import server.Magazine;
@@ -37,10 +38,26 @@ public class Library {
         magazineShelf = new ArrayList<>();
     }
 
+    // hämtar all böcker från servern
     public void fetchBooks() {
-        HttpResponse<String> get_all_response = Unirest.get(baseUrl + "books").asString();
+        HttpResponse<String> getAllResponse;
 
-        String json_data = get_all_response.getBody();
+        try {
+            getAllResponse = Unirest.get(baseUrl + "books").asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = getAllResponse.getStatus();
+        System.out.println("statusKod: " + status);
+
+        if (status != 200) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        String json_data = getAllResponse.getBody();
 
         Type PublicationType = new TypeToken<ArrayList<Book>>() {
         }.getType();
@@ -51,9 +68,35 @@ public class Library {
             int id = Integer.parseInt(b.getId());
             nextBookId = Math.max(nextBookId, id + 1);
         }
-        System.out.println("Books fetched");
     }
 
+    // hämtar en bok från servern
+    public void fetchBook(String id) {
+        HttpResponse<String> getOneResponse;
+        try {
+            getOneResponse = Unirest.get(baseUrl + "books/" + id).asString();
+            // Letar efter Undantag så programet ej stängs ner om det blir fel
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = getOneResponse.getStatus();
+        System.out.println("statusKod: " + status);
+
+        if (status != 200) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        String getOneBody = getOneResponse.getBody();
+
+        Book book = gson.fromJson(getOneBody, Book.class);
+
+        bookShelf.add(book);
+    }
+
+    // Lägger till en ny book i bookhyllan
     public void addBook(String title, String author, String genre, int pages) {
         String id = String.valueOf(nextBookId);
         nextBookId++;
@@ -64,10 +107,11 @@ public class Library {
         System.out.println("Book added");
     }
 
+    // hämtar all magazine från servern
     public void fetchMagazines() {
-        HttpResponse<String> get_all_response = Unirest.get(baseUrl + "magazines").asString();
+        HttpResponse<String> magazinesResponse = Unirest.get(baseUrl + "magazines").asString();
 
-        String json_data = get_all_response.getBody();
+        String json_data = magazinesResponse.getBody();
 
         Type PublicationType = new TypeToken<ArrayList<Magazine>>() {
         }.getType();
@@ -82,6 +126,33 @@ public class Library {
         System.out.println("Magazines fetched");
     }
 
+    // hämtar en bok från servern
+    public void fetchMagazines(String id) {
+        HttpResponse<String> getOneResponse;
+        try {
+            getOneResponse = Unirest.get(baseUrl + "magazines/" + id).asString();
+            // Letar efter Undantag så programet ej stängs ner om det blir fel
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = getOneResponse.getStatus();
+        System.out.println("statusKod: " + status);
+
+        if (status != 200) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        String getOneBody = getOneResponse.getBody();
+
+        Magazine magazine = gson.fromJson(getOneBody, Magazine.class);
+
+        magazineShelf.add(magazine);
+    }
+
+    // lägg till ny tidning i tidningshyllan
     public void addMagazine(String title, int issueNumber, String category, int publisherYear) {
         String id = String.valueOf(nextMagazineId);
         nextMagazineId++;
