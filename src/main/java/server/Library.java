@@ -145,7 +145,7 @@ public class Library {
         magazineShelf.add(magazine);
     }
 
-    // hämtar all användare från servern
+    // hämtar alla användare från servern
     public void fetchUsers() {
         HttpResponse<String> getAllResponse;
 
@@ -198,6 +198,34 @@ public class Library {
         User user = gson.fromJson(getOneBody, User.class);
 
         CustomerList.add(user);
+    }
+
+        // hämtar alla bannade användare från servern
+    public void fetchSuspendedUsers() {
+        HttpResponse<String> getAllResponse;
+
+        // Letar efter undantag så programet ej stängs ner om det blir fel
+        try {
+            getAllResponse = Unirest.get(baseUrl + "suspended").asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = getAllResponse.getStatus();
+        System.out.println("statusKod: " + status);
+
+        if (status != 200) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        String json_data = getAllResponse.getBody();
+
+        Type PublicationType = new TypeToken<ArrayList<SuspendedUser>>() {
+        }.getType();
+
+        BannedList = gson.fromJson(json_data, PublicationType);
     }
 
     public ArrayList<Book> getBookShelf() {

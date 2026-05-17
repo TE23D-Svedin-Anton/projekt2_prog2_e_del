@@ -4,7 +4,6 @@ package server;
 
 import java.util.Scanner;
 
-
 public class Main {
     public static void main(String[] args) {
         Scanner keyboard = new Scanner(System.in);
@@ -33,7 +32,7 @@ public class Main {
                     System.out.println("1. Book");
                     System.out.println("2. Magazines");
                     System.out.println("3. Users");
-                    System.out.println("4. Banned users");
+                    System.out.println("4. Suspended users");
                     int fetchChoice = keyboard.nextInt();
 
                     switch (fetchChoice) {
@@ -80,6 +79,7 @@ public class Main {
                             System.out.println("1. All users");
                             System.out.println("2. Individual user");
                             int userFetchChoice = keyboard.nextInt();
+                            keyboard.nextLine();
 
                             switch (userFetchChoice) {
                                 case 1:
@@ -87,22 +87,15 @@ public class Main {
                                     break;
 
                                 case 2:
+                                    System.out.print("Nämn användarens id:");
+                                    String userId = keyboard.nextLine();
+                                    lib.fetchMagazine(userId);
                                     break;
                             }
                             break;
 
                         case 4:
-                            System.out.println("1. All banned users");
-                            System.out.println("2. Individual banned users");
-                            int bannedUserFetchChoice = keyboard.nextInt();
-
-                            switch (bannedUserFetchChoice) {
-                                case 1:
-                                    break;
-
-                                case 2:
-                                    break;
-                            }
+                            lib.fetchSuspendedUsers();
                             break;
                     }
                     break;
@@ -118,7 +111,7 @@ public class Main {
                             for (Book b : lib.getBookShelf()) {
                                 System.out.println(b);
                             }
-                            
+
                             break;
                         case "magazines":
                             for (Magazine m : lib.getMagazineShelf()) {
