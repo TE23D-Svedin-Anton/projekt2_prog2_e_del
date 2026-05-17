@@ -1,8 +1,6 @@
 // Anton Svedin TE23D Detta är en klass för objektet bok.
 package server;
 
-import server.com.Publication;
-
 public class Magazine extends Publication {
 
     private int issueNumber;

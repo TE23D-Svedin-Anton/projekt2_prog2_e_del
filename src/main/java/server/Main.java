@@ -1,11 +1,9 @@
 // Anton Svedin TE23D Main, det är själva programet där metoder och annat körs.
 //Här får man olika typer av alternativ som man kan välja mellan för att matcha ens behov.
-package server.com;
+package server;
 
 import java.util.Scanner;
 
-import server.Book;
-import server.Magazine;
 
 public class Main {
     public static void main(String[] args) {
@@ -24,7 +22,7 @@ public class Main {
             System.out.println("5. Sort objects");
             System.out.println("6. Ban/unban users");
             System.out.println("7. Close");
-            System.out.print("Choose between 1-6:");
+            System.out.print("Choose between 1-7:");
 
             int mainMenuChoice = keyboard.nextInt();
             keyboard.nextLine();
@@ -63,6 +61,7 @@ public class Main {
                             System.out.println("1. All magazines");
                             System.out.println("2. Individual magazine");
                             int magazineFetchChoice = keyboard.nextInt();
+                            keyboard.nextLine();
 
                             switch (magazineFetchChoice) {
                                 case 1:
@@ -70,6 +69,9 @@ public class Main {
                                     break;
 
                                 case 2:
+                                    System.out.print("Nämn tidningens id:");
+                                    String magazineId = keyboard.nextLine();
+                                    lib.fetchMagazine(magazineId);
                                     break;
                             }
                             break;
@@ -81,6 +83,7 @@ public class Main {
 
                             switch (userFetchChoice) {
                                 case 1:
+                                    lib.fetchUsers();
                                     break;
 
                                 case 2:
@@ -100,18 +103,6 @@ public class Main {
                                 case 2:
                                     break;
                             }
-                            break;
-
-                        case 5:
-                            break;
-
-                        case 6:
-                            break;
-
-                        case 7:
-                            break;
-
-                        case 8:
                             break;
                     }
                     break;
@@ -146,7 +137,6 @@ public class Main {
                     String genre = keyboard.nextLine();
                     System.out.print("Pages:");
                     int pages = keyboard.nextInt();
-                    lib.addBook(bookTitle, author, genre, pages);
 
                     break;
 
@@ -160,7 +150,6 @@ public class Main {
                     String category = keyboard.nextLine();
                     System.out.print("PulisherYear:");
                     int publisherYear = keyboard.nextInt();
-                    lib.addMagazine(magazineTitle, issueNumber, category, publisherYear);
 
                     break;
 

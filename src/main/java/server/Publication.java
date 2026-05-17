@@ -1,5 +1,5 @@
 // Anton Svedin TE23D Är en föräldrar klass till böcker och tidningar.
-package server.com;
+package server;
 
 public class Publication {
     protected String id;
