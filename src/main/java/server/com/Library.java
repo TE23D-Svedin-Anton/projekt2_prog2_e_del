@@ -41,7 +41,7 @@ public class Library {
     // hämtar all böcker från servern
     public void fetchBooks() {
         HttpResponse<String> getAllResponse;
-
+        // Letar efter Undantag så programet ej stängs ner om det blir fel
         try {
             getAllResponse = Unirest.get(baseUrl + "books").asString();
         } catch (UnirestException e) {
@@ -73,9 +73,9 @@ public class Library {
     // hämtar en bok från servern
     public void fetchBook(String id) {
         HttpResponse<String> getOneResponse;
+        // Letar efter Undantag så programet ej stängs ner om det blir fel
         try {
             getOneResponse = Unirest.get(baseUrl + "books/" + id).asString();
-            // Letar efter Undantag så programet ej stängs ner om det blir fel
         } catch (UnirestException e) {
             System.out.println("Undantag" + e.getLocalizedMessage());
             return;
@@ -109,9 +109,24 @@ public class Library {
 
     // hämtar all magazine från servern
     public void fetchMagazines() {
-        HttpResponse<String> magazinesResponse = Unirest.get(baseUrl + "magazines").asString();
+         HttpResponse<String> getAllResponse;
+        // Letar efter Undantag så programet ej stängs ner om det blir fel
+        try {
+            getAllResponse = Unirest.get(baseUrl + "magazines").asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
 
-        String json_data = magazinesResponse.getBody();
+        int status = getAllResponse.getStatus();
+        System.out.println("statusKod: " + status);
+
+        if (status != 200) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        String json_data = getAllResponse.getBody();
 
         Type PublicationType = new TypeToken<ArrayList<Magazine>>() {
         }.getType();
@@ -122,8 +137,6 @@ public class Library {
             int id = Integer.parseInt(m.getId());
             nextMagazineId = Math.max(nextMagazineId, id + 1);
         }
-
-        System.out.println("Magazines fetched");
     }
 
     // hämtar en bok från servern
