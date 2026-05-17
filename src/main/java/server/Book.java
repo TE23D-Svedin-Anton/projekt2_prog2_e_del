@@ -1,8 +1,9 @@
+// Anton Svedin TE23D
 package server;
 
 import server.com.Publication;
 
-public class Book extends Publication{
+public class Book extends Publication {
 
     private String author;
     private String genre;

@@ -1,11 +1,12 @@
+// Anton Svedin TE23D
 package server.com;
 
 public class Publication {
     protected String id;
     protected String title;
     protected boolean isAvailable;
-    
-    public Publication(String id, String title, boolean isAvailable){
+
+    public Publication(String id, String title, boolean isAvailable) {
         this.id = id;
         this.title = title;
         this.isAvailable = isAvailable;
@@ -40,5 +41,4 @@ public class Publication {
         return "Publication [id=" + id + ", Title=" + title + ", IsAvailable=" + isAvailable + "]";
     }
 
-    
 }

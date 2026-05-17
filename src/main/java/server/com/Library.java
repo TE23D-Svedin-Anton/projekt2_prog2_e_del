@@ -1,3 +1,5 @@
+// Anton Svedin TE23D Klassen Library hanterar hämtning och lagring av böcker och magasin från servern.
+
 package server.com;
 
 //Importerar Gson objekt
@@ -44,10 +46,6 @@ public class Library {
         }.getType();
 
         bookShelf = gson.fromJson(json_data, PublicationType);
-
-        for (Book b : bookShelf) {
-            System.out.println(b);
-        }
     }
 
     public void fetchBook() {
@@ -87,9 +85,13 @@ public class Library {
         Magazine magazine = gson.fromJson(json_data, Magazine.class);
 
         magazineShelf.add(magazine);
+    }
 
-        for (Magazine m : magazineShelf) {
-            System.out.println(m);
-        }
+    public ArrayList<Book> getBookShelf() {
+        return bookShelf;
+    }
+
+    public ArrayList<Magazine> getMagazineShelf() {
+        return magazineShelf;
     }
 }
