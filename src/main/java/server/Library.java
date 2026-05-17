@@ -39,29 +39,35 @@ public class Library {
 
     // hämtar all böcker från servern
     public void fetchBooks() {
-        HttpResponse<String> getAllResponse;
 
-        // Letar efter undantag så programet ej stängs ner om det blir fel
+        // Anropar servern
+        HttpResponse<String> getAllResponse;
         try {
             getAllResponse = Unirest.get(baseUrl + "books").asString();
+            // Fångar undantag så programet ej stängs ner om det blir fel
         } catch (UnirestException e) {
             System.out.println("Undantag" + e.getLocalizedMessage());
             return;
         }
 
+        // Tar in statusen
         int status = getAllResponse.getStatus();
         System.out.println("statusKod: " + status);
 
+        // Kollar om det gick bra
         if (status != 200) {
             System.out.println("Fel från server, statusKod: " + status);
             return;
         }
 
-        String getAllBody = getAllResponse.getBody();   
+        // Tar json koden från responsen
+        String getAllBody = getAllResponse.getBody();
 
+        // Informationen till Gson vilken typ som ska skapas
         Type PublicationType = new TypeToken<ArrayList<Book>>() {
         }.getType();
 
+        // konverterar Json datan till böcker och lägger in i bok listan
         bookShelf = gson.fromJson(getAllBody, PublicationType);
 
         System.out.println("Antal böcker i listan: " + bookShelf.size());
@@ -69,66 +75,72 @@ public class Library {
 
     // hämtar en bok från servern
     public void fetchBook(String id) {
+        // Anropar servern
         HttpResponse<String> getOneResponse;
-
-        // Letar efter undantag så programet ej stängs ner om det blir fel
         try {
             getOneResponse = Unirest.get(baseUrl + "books/" + id).asString();
+            // Fångar undantag så programet ej stängs ner om det blir fel
         } catch (UnirestException e) {
             System.out.println("Undantag" + e.getLocalizedMessage());
             return;
         }
 
+        // Tar in statusen
         int status = getOneResponse.getStatus();
         System.out.println("statusKod: " + status);
 
+        // Kollar om det gick bra
         if (status != 200) {
             System.out.println("Fel från server, statusKod: " + status);
             return;
         }
-
+        // Tar json koden från responsen
         String getOneBody = getOneResponse.getBody();
 
+        // Konverterar json data så det blir till en book
         Book book = gson.fromJson(getOneBody, Book.class);
 
+        // Lägger till boken i bok listan
         bookShelf.add(book);
 
         System.out.println("Hämtad bok: " + book);
     }
 
+    // Sparar en book i servern
     public void addbook(String title, String author, String genre, int pages) {
 
+        // Skapar en bok
         Book newBook = new Book("0", title, author, genre, pages, true);
 
+        // Konverterar boken till json data
         String jsonbody = gson.toJson(newBook);
-        HttpResponse<String> addResponse;
 
+        // anropar servern
+        HttpResponse<String> addResponse;
         try {
-            addResponse = Unirest.post(baseUrl)
+            // berättar att vi skickar in json data
+            addResponse = Unirest.post(baseUrl + "books")
                     .header("Content-Type", "application/json")
                     .body(jsonbody).asString();
+            // Fångar undantag så programet ej stängs ner om det blir fel
         } catch (UnirestException e) {
             System.out.println("Undantag" + e.getLocalizedMessage());
             return;
         }
 
+        // Kollar om det gick bra
         int status = addResponse.getStatus();
         if (status != 200 && status != 201) {
             System.out.println("Fel från server, statusKod: " + status);
             return;
         }
 
-        String addBody = addResponse.getBody();
-        Book book = gson.fromJson(addBody, Book.class);
-        System.out.println("Sparad på servern:" + book);
-
+        System.out.println("Sparad på servern:" + newBook);
     }
 
     // hämtar all tidningar från servern
     public void fetchMagazines() {
         HttpResponse<String> getAllResponse;
-
-        // Letar efter undantag så programet ej stängs ner om det blir fel
         try {
             getAllResponse = Unirest.get(baseUrl + "magazines").asString();
         } catch (UnirestException e) {
@@ -154,18 +166,14 @@ public class Library {
         System.out.println("Antal tidningar i listan: " + magazineShelf.size());
     }
 
-    // hämtar en tidning från servern
     public void fetchMagazine(String id) {
         HttpResponse<String> getOneResponse;
-
-        // Letar efter undantag så programet ej stängs ner om det blir fel
         try {
             getOneResponse = Unirest.get(baseUrl + "magazines/" + id).asString();
         } catch (UnirestException e) {
             System.out.println("Undantag" + e.getLocalizedMessage());
             return;
         }
-
         int status = getOneResponse.getStatus();
         System.out.println("statusKod: " + status);
 
@@ -183,11 +191,36 @@ public class Library {
         System.out.println("Hämtad tidningar: " + magazine);
     }
 
+    // Sparar en tidning i servern
+    public void addMagazine(String title, int issueNumber, String category, int publisherYear) {
+
+        Magazine newMagazine = new Magazine("0", title, issueNumber, category, publisherYear, true);
+
+        String jsonbody = gson.toJson(newMagazine);
+
+        HttpResponse<String> addResponse;
+        try {
+            addResponse = Unirest.post(baseUrl + "magazines")
+                    .header("Content-Type", "application/json")
+                    .body(jsonbody).asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = addResponse.getStatus();
+        if (status != 200 && status != 201) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        System.out.println("Sparad på servern:" + newMagazine);
+    }
+
     // hämtar alla användare från servern
     public void fetchUsers() {
         HttpResponse<String> getAllResponse;
 
-        // Letar efter undantag så programet ej stängs ner om det blir fel
         try {
             getAllResponse = Unirest.get(baseUrl + "users").asString();
         } catch (UnirestException e) {
@@ -213,11 +246,9 @@ public class Library {
         System.out.println("Antal användare i listan: " + customerList.size());
     }
 
-    // hämtar en användare från servern
     public void fetchUser(String id) {
         HttpResponse<String> getOneResponse;
 
-        // Letar efter undantag så programet ej stängs ner om det blir fel
         try {
             getOneResponse = Unirest.get(baseUrl + "users/" + id).asString();
         } catch (UnirestException e) {
@@ -242,11 +273,35 @@ public class Library {
         System.out.println("Hämtad användare: " + user);
     }
 
+       // Sparar en användare i servern
+    public void addUser(String name, String email) {
+
+        User newUser = new User("0", name, email);
+
+        String jsonbody = gson.toJson(newUser);
+
+        HttpResponse<String> addResponse;
+        try {
+            addResponse = Unirest.post(baseUrl + "users")
+                    .header("Content-Type", "application/json")
+                    .body(jsonbody).asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = addResponse.getStatus();
+        if (status != 200 && status != 201) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        System.out.println("Sparad på servern:" + newUser);
+    }
+
     // hämtar alla bannade användare från servern
     public void fetchSuspendedUsers() {
         HttpResponse<String> getAllResponse;
-
-        // Letar efter undantag så programet ej stängs ner om det blir fel
         try {
             getAllResponse = Unirest.get(baseUrl + "suspended").asString();
         } catch (UnirestException e) {
@@ -270,5 +325,31 @@ public class Library {
         bannedList = gson.fromJson(getAllBody, PublicationType);
 
         System.out.println("Antal bannade användare i listan: " + bannedList.size());
+    }
+
+     // Sparar en användare i servern
+    public void addSuspendedUser(String customerId) {
+
+        SuspendedUser newSuspendedUser = new SuspendedUser("0", customerId);
+
+        String jsonbody = gson.toJson(newSuspendedUser);
+
+        HttpResponse<String> addResponse;
+        try {
+            addResponse = Unirest.post(baseUrl + "suspended")
+                    .header("Content-Type", "application/json")
+                    .body(jsonbody).asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = addResponse.getStatus();
+        if (status != 200 && status != 201) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        System.out.println("Sparad på servern:" + newSuspendedUser);
     }
 }

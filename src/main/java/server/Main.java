@@ -19,7 +19,7 @@ public class Main {
             System.out.println("3. Find object");
             System.out.println("4. Remove object");
             System.out.println("5. Sort objects");
-            System.out.println("6. Ban/unban users");
+            System.out.println("6. Who can rent a book?");
             System.out.println("7. Close");
             System.out.print("Choose between 1-7:");
 
@@ -49,8 +49,8 @@ public class Main {
 
                                 case 2:
                                     System.out.print("Nämn bokens id:");
-                                    String bookId = keyboard.nextLine();
-                                    lib.fetchBook(bookId);
+                                    String bookIdToGet = keyboard.nextLine();
+                                    lib.fetchBook(bookIdToGet);
                                     break;
                             }
 
@@ -69,8 +69,8 @@ public class Main {
 
                                 case 2:
                                     System.out.print("Nämn tidningens id:");
-                                    String magazineId = keyboard.nextLine();
-                                    lib.fetchMagazine(magazineId);
+                                    String magazineIdToGet = keyboard.nextLine();
+                                    lib.fetchMagazine(magazineIdToGet);
                                     break;
                             }
                             break;
@@ -88,8 +88,8 @@ public class Main {
 
                                 case 2:
                                     System.out.print("Nämn användarens id:");
-                                    String userId = keyboard.nextLine();
-                                    lib.fetchUser(userId);
+                                    String userIdToGet = keyboard.nextLine();
+                                    lib.fetchUser(userIdToGet);
                                     break;
                             }
                             break;
@@ -101,34 +101,62 @@ public class Main {
                     break;
 
                 case 2:
+                    System.out.println("1. Book");
+                    System.out.println("2. Magazines");
+                    System.out.println("3. Users");
+                    System.out.println("4. Suspended users");
+                    int addChoice = keyboard.nextInt();
+                    keyboard.nextLine();
+
+                    switch (addChoice) {
+                        case 1:
+                            System.out.print("Title:");
+                            String bookTitle = keyboard.nextLine();
+                            System.out.print("Author:");
+                            String author = keyboard.nextLine();
+                            System.out.print("Genre:");
+                            String genre = keyboard.nextLine();
+                            System.out.print("Pages:");
+                            int pages = keyboard.nextInt();
+                            lib.addbook(bookTitle, author, genre, pages);
+                            break;
+
+                        case 2:
+                            System.out.print("Title:");
+                            String magazineTitle = keyboard.nextLine();
+                            System.out.print("IssueNumber:");
+                            int issueNumber = keyboard.nextInt();
+                            keyboard.nextLine();
+                            System.out.print("Category");
+                            String category = keyboard.nextLine();
+                            System.out.print("PulisherYear:");
+                            int publisherYear = keyboard.nextInt();
+                            lib.addMagazine(magazineTitle, issueNumber, category, publisherYear);
+                            break;
+
+                        case 3:
+                            System.out.print("Skriv ditt namn:");
+                            String name = keyboard.nextLine();
+                            System.out.print("Skriv din email:");
+                            String email = keyboard.nextLine();
+                            lib.addUser(name,email);
+                            break;
+
+                        case 4:
+                            System.out.print("Skriv användaren id som ska bli bannad:");
+                            String UserIdToBan = keyboard.nextLine();
+                            lib.addSuspendedUser(UserIdToBan);
+                            break;
+                    }
                     break;
 
                 case 3:
                     break;
 
                 case 4:
-                    System.out.print("Title:");
-                    String bookTitle = keyboard.nextLine();
-                    System.out.print("Author");
-                    String author = keyboard.nextLine();
-                    System.out.print("Genre:");
-                    String genre = keyboard.nextLine();
-                    System.out.print("Pages:");
-                    int pages = keyboard.nextInt();
-
                     break;
 
                 case 5:
-                    System.out.print("Title:");
-                    String magazineTitle = keyboard.nextLine();
-                    System.out.print("IssueNumber:");
-                    int issueNumber = keyboard.nextInt();
-                    keyboard.nextLine();
-                    System.out.print("Category");
-                    String category = keyboard.nextLine();
-                    System.out.print("PulisherYear:");
-                    int publisherYear = keyboard.nextInt();
-
                     break;
 
                 case 6:
