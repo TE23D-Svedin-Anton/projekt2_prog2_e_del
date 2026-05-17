@@ -89,7 +89,7 @@ public class Main {
                                 case 2:
                                     System.out.print("Nämn användarens id:");
                                     String userId = keyboard.nextLine();
-                                    lib.fetchMagazine(userId);
+                                    lib.fetchUser(userId);
                                     break;
                             }
                             break;
@@ -104,21 +104,6 @@ public class Main {
                     break;
 
                 case 3:
-                    System.out.print("Books or Magazines?:");
-                    String answer = keyboard.nextLine().toLowerCase();
-                    switch (answer) {
-                        case "books":
-                            for (Book b : lib.getBookShelf()) {
-                                System.out.println(b);
-                            }
-
-                            break;
-                        case "magazines":
-                            for (Magazine m : lib.getMagazineShelf()) {
-                                System.out.println(m);
-                            }
-                            break;
-                    }
                     break;
 
                 case 4:

@@ -25,14 +25,16 @@ public class Library {
     // Skapa listor av böcker och magaziner
     private ArrayList<Book> bookShelf;
     private ArrayList<Magazine> magazineShelf;
-    private ArrayList<User> CustomerList;
-    private ArrayList<SuspendedUser> BannedList;
+    private ArrayList<User> customerList;
+    private ArrayList<SuspendedUser> bannedList;
 
     // Konstruktorn
     public Library() {
 
         bookShelf = new ArrayList<>();
         magazineShelf = new ArrayList<>();
+        customerList = new ArrayList<>();
+        bannedList = new ArrayList<>();
     }
 
     // hämtar all böcker från servern
@@ -55,12 +57,14 @@ public class Library {
             return;
         }
 
-        String json_data = getAllResponse.getBody();
+        String getAllBody = getAllResponse.getBody();   
 
         Type PublicationType = new TypeToken<ArrayList<Book>>() {
         }.getType();
 
-        bookShelf = gson.fromJson(json_data, PublicationType);
+        bookShelf = gson.fromJson(getAllBody, PublicationType);
+
+        System.out.println("Antal böcker i listan: " + bookShelf.size());
     }
 
     // hämtar en bok från servern
@@ -88,6 +92,36 @@ public class Library {
         Book book = gson.fromJson(getOneBody, Book.class);
 
         bookShelf.add(book);
+
+        System.out.println("Hämtad bok: " + book);
+    }
+
+    public void addbook(String title, String author, String genre, int pages) {
+
+        Book newBook = new Book("0", title, author, genre, pages, true);
+
+        String jsonbody = gson.toJson(newBook);
+        HttpResponse<String> addResponse;
+
+        try {
+            addResponse = Unirest.post(baseUrl)
+                    .header("Content-Type", "application/json")
+                    .body(jsonbody).asString();
+        } catch (UnirestException e) {
+            System.out.println("Undantag" + e.getLocalizedMessage());
+            return;
+        }
+
+        int status = addResponse.getStatus();
+        if (status != 200 && status != 201) {
+            System.out.println("Fel från server, statusKod: " + status);
+            return;
+        }
+
+        String addBody = addResponse.getBody();
+        Book book = gson.fromJson(addBody, Book.class);
+        System.out.println("Sparad på servern:" + book);
+
     }
 
     // hämtar all tidningar från servern
@@ -110,12 +144,14 @@ public class Library {
             return;
         }
 
-        String json_data = getAllResponse.getBody();
+        String getAllBody = getAllResponse.getBody();
 
         Type PublicationType = new TypeToken<ArrayList<Magazine>>() {
         }.getType();
 
-        magazineShelf = gson.fromJson(json_data, PublicationType);
+        magazineShelf = gson.fromJson(getAllBody, PublicationType);
+
+        System.out.println("Antal tidningar i listan: " + magazineShelf.size());
     }
 
     // hämtar en tidning från servern
@@ -143,6 +179,8 @@ public class Library {
         Magazine magazine = gson.fromJson(getOneBody, Magazine.class);
 
         magazineShelf.add(magazine);
+
+        System.out.println("Hämtad tidningar: " + magazine);
     }
 
     // hämtar alla användare från servern
@@ -165,12 +203,14 @@ public class Library {
             return;
         }
 
-        String json_data = getAllResponse.getBody();
+        String getAllBody = getAllResponse.getBody();
 
         Type PublicationType = new TypeToken<ArrayList<User>>() {
         }.getType();
 
-        CustomerList = gson.fromJson(json_data, PublicationType);
+        customerList = gson.fromJson(getAllBody, PublicationType);
+
+        System.out.println("Antal användare i listan: " + customerList.size());
     }
 
     // hämtar en användare från servern
@@ -197,10 +237,12 @@ public class Library {
 
         User user = gson.fromJson(getOneBody, User.class);
 
-        CustomerList.add(user);
+        customerList.add(user);
+
+        System.out.println("Hämtad användare: " + user);
     }
 
-        // hämtar alla bannade användare från servern
+    // hämtar alla bannade användare från servern
     public void fetchSuspendedUsers() {
         HttpResponse<String> getAllResponse;
 
@@ -220,19 +262,13 @@ public class Library {
             return;
         }
 
-        String json_data = getAllResponse.getBody();
+        String getAllBody = getAllResponse.getBody();
 
         Type PublicationType = new TypeToken<ArrayList<SuspendedUser>>() {
         }.getType();
 
-        BannedList = gson.fromJson(json_data, PublicationType);
-    }
+        bannedList = gson.fromJson(getAllBody, PublicationType);
 
-    public ArrayList<Book> getBookShelf() {
-        return bookShelf;
-    }
-
-    public ArrayList<Magazine> getMagazineShelf() {
-        return magazineShelf;
+        System.out.println("Antal bannade användare i listan: " + bannedList.size());
     }
 }
