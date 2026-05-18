@@ -1,6 +1,6 @@
 package server;
 
-public class User {
+public class User implements Comparable<User>{
 
     private String id;
     private String name;
@@ -22,6 +22,11 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public int compareTo(User other) {
+        return this.name.compareTo(other.name);
     }
 
     @Override

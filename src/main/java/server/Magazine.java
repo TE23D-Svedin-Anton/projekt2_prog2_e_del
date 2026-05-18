@@ -1,7 +1,7 @@
 // Anton Svedin TE23D Detta är en klass för objektet bok.
 package server;
 
-public class Magazine extends Publication {
+public class Magazine extends Publication implements Comparable<Magazine> {
 
     private int issueNumber;
     private String category;
@@ -24,6 +24,11 @@ public class Magazine extends Publication {
 
     public int getPublisherYear() {
         return publisherYear;
+    }
+
+    @Override
+    public int compareTo(Magazine other) {
+        return this.title.compareTo(other.title);
     }
 
     @Override

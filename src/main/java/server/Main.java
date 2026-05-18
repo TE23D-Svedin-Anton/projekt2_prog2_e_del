@@ -1,7 +1,6 @@
 // Anton Svedin TE23D Main, det är själva programet där metoder och annat körs.
 //Här får man olika typer av alternativ som man kan välja mellan för att matcha ens behov.
 package server;
-
 import java.util.Scanner;
 
 public class Main {
@@ -165,29 +164,86 @@ public class Main {
                     switch (findChoice) {
                         case 1:
                             System.out.print("Type in the title of the book youre trying to find:");
-                            String title = keyboard.nextLine();
-                            lib.findBookByTitle(title);
+                            String bookTitle = keyboard.nextLine();
+                            lib.findBookByTitle(bookTitle);
                             break;
 
                         case 2:
+                            System.out.print("Type in the title of the magazine youre trying to find:");
+                            String magazineTitle = keyboard.nextLine();
+                            lib.findMagazineByTitle(magazineTitle);
                             break;
 
                         case 3:
                             System.out.print("Type in the email of the user youre trying to find:");
-                            String email = keyboard.nextLine();
-                            lib.findUserByEmail(email);
+                            String userEmail = keyboard.nextLine();
+                            lib.findUserByEmail(userEmail);
                             break;
                     }
                     break;
 
                 case 4:
+                    System.out.println("1. Books");
+                    System.out.println("2. Magazines");
+                    System.out.println("3. Users");
+                    System.out.println("4. Suspended users");
+                    System.out.print("What would you like to do?:");
+                    int removeChoice = keyboard.nextInt();
+                    keyboard.nextLine();
+
+                    switch (removeChoice) {
+                        case 1:
+                            System.out.print("Type in the title of the book youre trying to remove:");
+                            String bookTitle = keyboard.nextLine();
+                            lib.removeBookByTitle(bookTitle);
+                            break;
+
+                        case 2:
+                            System.out.print("Type in the title of the magazine youre trying to remove:");
+                            String magazineTitle = keyboard.nextLine();
+                            lib.removeMagazineByTitle(magazineTitle);
+                            break;
+
+                        case 3:
+                            System.out.print("Type in the email of the user youre trying to remove:");
+                            String userEmail = keyboard.nextLine();
+                            lib.removeUserByEmail(userEmail);
+                            break;
+
+                        case 4:
+                            System.out.print("Type in the id of the suspended user youre trying to remove:");
+                            String suspendedUserId = keyboard.nextLine();
+                            lib.removeSuspendedUserById(suspendedUserId);
+                            break;
+                    }
                     break;
 
                 case 5:
+                    System.out.println("1. Books");
+                    System.out.println("2. Magazines");
+                    System.out.println("3. Users");
+                    System.out.println("4. Suspended users");
+                    System.out.print("What would you like to do?:");
+                    int sortChoice = keyboard.nextInt();
+                    switch (sortChoice) {
+                        case 1:
+                            lib.sortBooks();
+                            break;
+                    
+                        case 2:
+                            lib.sortMagazines();
+                            break;
+
+                        case 3:
+                            lib.sortUsers();
+                            break;
+                    }
                     break;
 
                 case 6:
-
+                    System.out.print("Type in the email:");
+                            String userId = keyboard.nextLine();
+                    lib.canUserBorrow(userId);
                     break;
 
                 case 7:
