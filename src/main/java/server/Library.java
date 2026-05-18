@@ -15,10 +15,12 @@ import kong.unirest.HttpResponse;
 //Gör så vi kan ha arraylist för att lagra objekt
 import java.util.ArrayList;
 
+import java.util.HashMap;
+
 public class Library {
 
     // URL till server tjänsten
-    private String baseUrl = "http://localhost:3000/";
+    private String baseUrl = "http://10.151.168.5:3102/";
 
     // Skapa Gson instans
     private Gson gson = new Gson();
@@ -26,6 +28,9 @@ public class Library {
     private ArrayList<Book> bookShelf;
     private ArrayList<Magazine> magazineShelf;
     private ArrayList<User> customerList;
+    private HashMap<String, Book> bookMap;
+    private HashMap<String, Magazine> magazineMap;
+    private HashMap<String, User> customerMap;
     private ArrayList<SuspendedUser> bannedList;
 
     // Konstruktorn
@@ -35,6 +40,10 @@ public class Library {
         magazineShelf = new ArrayList<>();
         customerList = new ArrayList<>();
         bannedList = new ArrayList<>();
+
+        bookMap = new HashMap<>();
+        magazineMap = new HashMap<>();
+        customerMap = new HashMap<>();
     }
 
     // hämtar all böcker från servern
@@ -70,6 +79,10 @@ public class Library {
         // konverterar Json datan till böcker och lägger in i bok listan
         bookShelf = gson.fromJson(getAllBody, PublicationType);
 
+        for (Book book : bookShelf) {
+            bookMap.put(book.getTitle(), book);
+        }
+
         System.out.println("Antal böcker i listan: " + bookShelf.size());
     }
 
@@ -102,6 +115,8 @@ public class Library {
 
         // Lägger till boken i bok listan
         bookShelf.add(book);
+
+        bookMap.put(book.getTitle(), book);
 
         System.out.println("Hämtad bok: " + book);
     }
@@ -138,6 +153,18 @@ public class Library {
         System.out.println("Sparad på servern:" + newBook);
     }
 
+    // Hittar book genom title
+    public void findBookByTitle(String title) {
+
+        Book book = bookMap.get(title);
+
+        if (book != null) {
+            System.out.println(book);
+        } else {
+            System.out.println("Ingen bok hittades");
+        }
+    }
+
     // hämtar all tidningar från servern
     public void fetchMagazines() {
         HttpResponse<String> getAllResponse;
@@ -163,6 +190,10 @@ public class Library {
 
         magazineShelf = gson.fromJson(getAllBody, PublicationType);
 
+        for (Magazine magazine : magazineShelf) {
+            magazineMap.put(magazine.getTitle(), magazine);
+        }
+
         System.out.println("Antal tidningar i listan: " + magazineShelf.size());
     }
 
@@ -187,6 +218,8 @@ public class Library {
         Magazine magazine = gson.fromJson(getOneBody, Magazine.class);
 
         magazineShelf.add(magazine);
+
+            magazineMap.put(magazine.getTitle(), magazine);
 
         System.out.println("Hämtad tidningar: " + magazine);
     }
@@ -217,6 +250,18 @@ public class Library {
         System.out.println("Sparad på servern:" + newMagazine);
     }
 
+    // Hittar magazine genom title
+    public void findMagazineByTitle(String title) {
+
+        Magazine magazine = magazineMap.get(title);
+
+        if (magazine != null) {
+            System.out.println(magazine);
+        } else {
+            System.out.println("Ingen bok hittades");
+        }
+    }
+
     // hämtar alla användare från servern
     public void fetchUsers() {
         HttpResponse<String> getAllResponse;
@@ -242,6 +287,10 @@ public class Library {
         }.getType();
 
         customerList = gson.fromJson(getAllBody, PublicationType);
+
+        for (User user : customerList) {
+            customerMap.put(user.getEmail(), user);
+        }
 
         System.out.println("Antal användare i listan: " + customerList.size());
     }
@@ -270,10 +319,12 @@ public class Library {
 
         customerList.add(user);
 
+        customerMap.put(user.getEmail(), user);
+
         System.out.println("Hämtad användare: " + user);
     }
 
-       // Sparar en användare i servern
+    // Sparar en användare i servern
     public void addUser(String name, String email) {
 
         User newUser = new User("0", name, email);
@@ -297,6 +348,17 @@ public class Library {
         }
 
         System.out.println("Sparad på servern:" + newUser);
+    }
+
+    // Hittar användare genom email
+    public void findUserByEmail(String email) {
+        User user = customerMap.get(email);
+
+        if (user != null) {
+            System.out.println(user);
+        } else {
+            System.out.println("Ingen användare hittades");
+        }
     }
 
     // hämtar alla bannade användare från servern
@@ -327,7 +389,7 @@ public class Library {
         System.out.println("Antal bannade användare i listan: " + bannedList.size());
     }
 
-     // Sparar en användare i servern
+    // Sparar en bannad användare i servern
     public void addSuspendedUser(String customerId) {
 
         SuspendedUser newSuspendedUser = new SuspendedUser("0", customerId);

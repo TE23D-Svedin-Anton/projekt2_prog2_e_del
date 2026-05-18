@@ -29,16 +29,18 @@ public class Main {
             switch (mainMenuChoice) {
 
                 case 1:
-                    System.out.println("1. Book");
+                    System.out.println("1. Books");
                     System.out.println("2. Magazines");
                     System.out.println("3. Users");
                     System.out.println("4. Suspended users");
+                    System.out.print("What would you like to do?:");
                     int fetchChoice = keyboard.nextInt();
 
                     switch (fetchChoice) {
                         case 1:
                             System.out.println("1. All books");
                             System.out.println("2. Individual book");
+                            System.out.print("What would you like to do?:");
                             int bookFetchChoice = keyboard.nextInt();
                             keyboard.nextLine();
 
@@ -48,7 +50,7 @@ public class Main {
                                     break;
 
                                 case 2:
-                                    System.out.print("Nämn bokens id:");
+                                    System.out.print("Type in the books id:");
                                     String bookIdToGet = keyboard.nextLine();
                                     lib.fetchBook(bookIdToGet);
                                     break;
@@ -59,6 +61,7 @@ public class Main {
                         case 2:
                             System.out.println("1. All magazines");
                             System.out.println("2. Individual magazine");
+                            System.out.print("What would you like to do?:");
                             int magazineFetchChoice = keyboard.nextInt();
                             keyboard.nextLine();
 
@@ -68,7 +71,7 @@ public class Main {
                                     break;
 
                                 case 2:
-                                    System.out.print("Nämn tidningens id:");
+                                    System.out.print("Type in the magazines id:");
                                     String magazineIdToGet = keyboard.nextLine();
                                     lib.fetchMagazine(magazineIdToGet);
                                     break;
@@ -78,6 +81,7 @@ public class Main {
                         case 3:
                             System.out.println("1. All users");
                             System.out.println("2. Individual user");
+                            System.out.print("What would you like to do?:");
                             int userFetchChoice = keyboard.nextInt();
                             keyboard.nextLine();
 
@@ -87,7 +91,7 @@ public class Main {
                                     break;
 
                                 case 2:
-                                    System.out.print("Nämn användarens id:");
+                                    System.out.print("Type in the users id:");
                                     String userIdToGet = keyboard.nextLine();
                                     lib.fetchUser(userIdToGet);
                                     break;
@@ -101,10 +105,11 @@ public class Main {
                     break;
 
                 case 2:
-                    System.out.println("1. Book");
+                    System.out.println("1. Books");
                     System.out.println("2. Magazines");
                     System.out.println("3. Users");
                     System.out.println("4. Suspended users");
+                    System.out.print("What would you like to do?:");
                     int addChoice = keyboard.nextInt();
                     keyboard.nextLine();
 
@@ -135,15 +140,15 @@ public class Main {
                             break;
 
                         case 3:
-                            System.out.print("Skriv ditt namn:");
+                            System.out.print("Type in your namn:");
                             String name = keyboard.nextLine();
-                            System.out.print("Skriv din email:");
+                            System.out.print("Type in your email:");
                             String email = keyboard.nextLine();
-                            lib.addUser(name,email);
+                            lib.addUser(name, email);
                             break;
 
                         case 4:
-                            System.out.print("Skriv användaren id som ska bli bannad:");
+                            System.out.print("Type in the users id that youre trying to ban:");
                             String UserIdToBan = keyboard.nextLine();
                             lib.addSuspendedUser(UserIdToBan);
                             break;
@@ -151,6 +156,28 @@ public class Main {
                     break;
 
                 case 3:
+                    System.out.println("1. Book");
+                    System.out.println("2. Magazines");
+                    System.out.println("3. Users");
+                    System.out.print("What would you like to do?:");
+                    int findChoice = keyboard.nextInt();
+                    keyboard.nextLine();
+                    switch (findChoice) {
+                        case 1:
+                            System.out.print("Type in the title of the book youre trying to find:");
+                            String title = keyboard.nextLine();
+                            lib.findBookByTitle(title);
+                            break;
+
+                        case 2:
+                            break;
+
+                        case 3:
+                            System.out.print("Type in the email of the user youre trying to find:");
+                            String email = keyboard.nextLine();
+                            lib.findUserByEmail(email);
+                            break;
+                    }
                     break;
 
                 case 4:
