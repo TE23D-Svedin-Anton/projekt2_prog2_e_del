@@ -27,7 +27,9 @@ public class Book extends Publication implements Comparable<Book> {
     }
 
     @Override
+    //Jämför this book med en annan
     public int compareTo(Book other) {
+        //Jämförelse med titlar
         return this.title.compareTo(other.title);
     }
 

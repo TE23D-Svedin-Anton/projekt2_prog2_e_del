@@ -20,7 +20,7 @@ import java.util.HashMap;
 public class Library {
 
     // URL till server tjänsten
-    private String baseUrl = "http://localhost:3000/";
+    private String baseUrl = "http://10.151.168.5:3102/";
 
     // Skapa Gson instans
     private Gson gson = new Gson();
@@ -207,8 +207,10 @@ public class Library {
 
     //Sorterar böcker
     public void sortBooks() {
+        //sorterar böckerna
         Collections.sort(bookShelf);
 
+        //Printar varje bok i den sorterade listan
         for (Book book : bookShelf) {
             System.out.println(book);
         }
@@ -580,13 +582,16 @@ public class Library {
     }
     
     public void canUserBorrow(String email) {
+        //Hämtar usern med email
         User user = customerMap.get(email);
 
+        //Kollar om den finns
         if (user == null) {
             System.out.println("Användaren finns inte");
             return;
         }
-
+        
+        //Kollar om usern är avstängd
         if (bannedMap.containsKey(user.getId())) {
             System.out.println("Användaren är avstängd och får inte låna");
             return;
